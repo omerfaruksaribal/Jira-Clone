@@ -10,6 +10,12 @@ pnpm dev
 bun dev
 ```
 
+npm install react-icons
+
+npm install react-hook-form
+
+npm install zod
+
 npx shadcn@latest init
 
 npx shadcn@latest add avatar badge button calendar card chart checkbox dialog drawer dropdown-menu form input label popover scroll-area select separator sheet skeleton sonner table tabs textarea

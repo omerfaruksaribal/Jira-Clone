@@ -1,13 +1,19 @@
 import * as z from 'zod';
-import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 
 import { DottedSeperator } from '@/components/dotted-seperator';
 import { Button } from '@/components/ui/button';
-import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardDescription,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
   Form,
@@ -18,25 +24,40 @@ import {
 } from '@/components/ui/form';
 
 const formSchema = z.object({
+  name: z.string().trim().min(1, 'Name is required'),
   email: z.string().email(),
-  password: z.string().min(1, 'Password is Required'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
 });
 
-export const SignInCard = () => {
+export const SignUpCard = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
   });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log({ values });
+    console.log(values);
   };
   return (
     <Card className="w-full h-full md:w-[487px] border-none shadow-none">
       <CardHeader className="flex items-center justify-center text-center p-7">
-        <CardTitle className="text-2xl">Welcome Back!</CardTitle>
+        <CardTitle className="text-2xl">
+          You are one step away from joining us!
+        </CardTitle>
+        <CardDescription>
+          By creating account, you are agree to our{' '}
+          <Link href="/privacy">
+            <span className="text-blue-700">Privacy Policy</span>
+          </Link>{' '}
+          and{' '}
+          <Link href="/terms">
+            <span className="text-blue-700">Terms of Service</span>
+          </Link>
+        </CardDescription>
       </CardHeader>
       <div className="px-7">
         <DottedSeperator />
@@ -44,6 +65,19 @@ export const SignInCard = () => {
       <CardContent className="p-7">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              name="name"
+              control={form.control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input {...field} placeholder="Your Name" type="text" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               name="email"
               control={form.control}
@@ -79,7 +113,7 @@ export const SignInCard = () => {
               )}
             />
             <Button disabled={false} size="lg" className="w-full">
-              Login
+              Create Account
             </Button>
           </form>
         </Form>
@@ -87,7 +121,7 @@ export const SignInCard = () => {
       <div className="px-7">
         <DottedSeperator />
       </div>
-      <CardContent className="flex flex-col p-7 gap-y-4">
+      <CardContent className="p-7 flex flex-col gap-y-4">
         <Button
           variant="secondary"
           size="lg"
@@ -95,7 +129,7 @@ export const SignInCard = () => {
           disabled={false}
         >
           <FcGoogle className="mr-2 size-5" />
-          Login with Google
+          Create Account with Google
         </Button>
         <Button
           variant="secondary"
@@ -104,7 +138,7 @@ export const SignInCard = () => {
           disabled={false}
         >
           <FaGithub className="mr-2 size-5" />
-          Login with Github
+          Create Account with Github
         </Button>
       </CardContent>
       <div className="px-7">
@@ -112,12 +146,12 @@ export const SignInCard = () => {
       </div>
       <CardContent className="p-7 flex items-center justify-center">
         <p>
-          Don&apos;t have an account?
+          Already have an account?
           <Link
-            href="/sign-up"
+            href="/sign-in"
             className="text-blue-700 ml-2 border-b border-blue-700"
           >
-            Sign Up
+            Sign In
           </Link>
         </p>
       </CardContent>
