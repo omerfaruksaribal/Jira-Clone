@@ -20,6 +20,8 @@ npm install hono
 
 npm i @tanstack/react-query
 
+npm i @hono/zod-validator
+
 npx shadcn@latest init
 
 npx shadcn@latest add avatar badge button calendar card chart checkbox dialog drawer dropdown-menu form input label popover scroll-area select separator sheet skeleton sonner table tabs textarea
