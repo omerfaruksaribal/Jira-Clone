@@ -1,23 +1,17 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { redirect } from 'next/navigation';
 
-export default function Home() {
+import { getCurrent } from '@/features/auth/actions';
+import { UserButton } from '@/features/auth/components/user-button';
+
+export default async function Home() {
+  const user = await getCurrent();
+
+  console.log({ user });
+
+  if (!user) redirect('/sign-in');
   return (
-    <>
-      <div className="flex items-center justify-center align-middle mt-12">
-        <Button>jira</Button>
-        <Button variant="destructive">destructive</Button>
-        <Button variant="ghost">ghost</Button>
-        <Button variant="muted">muted</Button>
-        <Button variant="outline">outline</Button>
-        <Button variant="secondary">secondary</Button>
-        <Button variant="teritary">teritary</Button>
-      </div>
-      <div className="flex flex-col items-center justify-center align-middle mt-12">
-        <Input />
-        <Select />
-      </div>
-    </>
+    <div>
+      <UserButton />
+    </div>
   );
 }
